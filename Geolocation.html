@@ -1,0 +1,52 @@
+<html>
+    <body>
+        <h1 style="text-align: center" id="Horizon">Get your Location
+        <br><br><button onclick="Location()">Get Location</button></h1>
+
+        <div id="mapholder" style="text-align: center"></div>
+
+        <script>
+            var x = document.getElementById("Horizon");
+
+            function Location()
+            {
+                if (navigator.geolocation)
+                {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                }
+            else
+               {
+                    x.innerHTML = "Geolocation is not supported in this browser.";
+                }
+            }
+            function showPosition(position)
+             {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+
+	x.innerHTML =  position.coords.latitude + "," + position.coords.longitude;
+                var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="
+                +lat + ',' + lon+"&zoom=19&size=800x500&key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU";
+                document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+            }
+            function showError(error)
+            {
+                switch(error.code)
+            {
+                    case error.PERMISSION_DENIED:
+                        x.innerHTML = "User denied the request for Geolocation."
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        x.innerHTML = "Location information is unavailable."
+                        break;
+                    case error.TIMEOUT:
+                        x.innerHTML = "The request to get user location timed out."
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        x.innerHTML = "An unknown error occurred."
+                        break;
+                }
+            }
+        </script>
+    </body>
+</html>
